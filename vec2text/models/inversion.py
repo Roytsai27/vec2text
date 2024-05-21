@@ -197,23 +197,23 @@ class InversionModel(transformers.PreTrainedModel):
         #         embedder_tokenizer=self.embedder_tokenizer,
         #         api_name=self.embedder_model_api,
         #     )
-        if isinstance(self.embedder, SentenceTransformer):
+        # if isinstance(self.embedder, SentenceTransformer):
             # sentence-transformers is kind of really annoying
             # model_inputs = {"input_ids": input_ids, "attention_mask": attention_mask}
             # if token_type_ids is not None:
             #     model_inputs["token_type_ids"] = token_type_ids
-            sentences = [self.embedder_tokenizer.decode(ids) for ids in input_ids]
+        sentences = [self.embedder_tokenizer.decode(ids) for ids in input_ids]
             # print(f"{self.embedder.__class__.__name__} Encoding...")
-            embeddings = self.embedder.encode(sentences)
+        embeddings = self.embedder.encode(sentences)
             # embeddings = model_output["sentence_embedding"]
-        else:
-            model_output = embedder(input_ids=input_ids, attention_mask=attention_mask)
-            embeddings = self._process_embedder_output(model_output, attention_mask)
+        # else:
+        #     model_output = embedder(input_ids=input_ids, attention_mask=attention_mask)
+        #     embeddings = self._process_embedder_output(model_output, attention_mask)
 
-        if self.noise_level > 0:
-            embeddings += self.noise_level * torch.randn(
-                embeddings.shape, device=embeddings.device
-            )
+        # if self.noise_level > 0:
+        #     embeddings += self.noise_level * torch.randn(
+        #         embeddings.shape, device=embeddings.device
+        #     )
         return embeddings
 
     def embed_and_project(
