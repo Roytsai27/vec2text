@@ -31,10 +31,13 @@ class InversionModelBagOfWords(transformers.PreTrainedModel):
         self.embedder_tokenizer = embedder_tokenizer
         self.vocab_size = embedder_tokenizer.vocab_size
 
+        # self.mlp = nn.Sequential(
+        #     nn.Linear(self.d_embedder, self.d_embedder*8),
+            # nn.ReLU(),
+            # nn.Linear(self.d_embedder*8, self.vocab_size),
+        # )
         self.mlp = nn.Sequential(
-            nn.Linear(self.d_embedder, self.d_embedder*8),
-            nn.ReLU(),
-            nn.Linear(self.d_embedder*8, self.vocab_size),
+            nn.Linear(self.d_embedder, self.vocab_size),
         )
         
         self.config = config
